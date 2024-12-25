@@ -1,46 +1,45 @@
-import axios from "axios"; // Importing axios for making HTTP requests
-import { useEffect, useState } from "react"; // Importing useEffect and useState from React
-import { BACKEND_URL } from "../config"; // Importing the backend URL from configuration
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 
-// Custom hook to manage and fetch content data
+// Custom hook to fetch content data
 export function useContent() {
-  // State to hold the fetched content
-  const [contents, setContents] = useState([]);
+  const [contents, setContents] = useState<any[]>([]); // State to store fetched content
+  const [loading, setLoading] = useState(true); // State for loading indicator
 
-  // Function to refresh and fetch content from the backend
-  function refresh() {
-    axios
-      .get(`${BACKEND_URL}/api/v1/content`, {
-        // Making GET request to the backend API
+  // Function to fetch content from the backend
+  const fetchContents = async () => {
+    try {
+      setLoading(true); // Set loading state to true when data is being fetched
+      const response = await axios.get(`${BACKEND_URL}/api/v1/content`, {
         headers: {
-          Authorization: localStorage.getItem("token"), // Including the token from localStorage for authentication
+          Authorization: localStorage.getItem("token"), // Authorization header with token
         },
-      })
-      .then((response) => {
-        // If the request is successful, update the contents state with the fetched data
-        setContents(response.data.content);
-      })
-      .catch((error) => {
-        // Handle any error that occurs during the request (optional)
-        console.error("Error fetching content:", error);
       });
-  }
+      console.log("Fetched content:", response.data); // Log the fetched data for debugging
 
-  // useEffect hook to perform actions on component mount and set an interval for periodic refresh
+      // Set the content if available, else use an empty array
+      setContents(response.data.content || []);
+    } catch (error) {
+      console.error("Error fetching content:", error); // Log any errors
+    } finally {
+      setLoading(false); // Set loading to false once data is fetched
+    }
+  };
+
   useEffect(() => {
-    refresh(); // Initial fetch when the component mounts
+    fetchContents(); // Fetch data when the component mounts
 
-    // Set an interval to refresh content every 10 seconds
+    // Set an interval to refresh the content every 10 seconds
     const interval = setInterval(() => {
-      refresh();
-    }, 10 * 1000); // 10 seconds interval
+      fetchContents();
+    }, 10 * 1000); // Refresh every 10 seconds
 
-    // Cleanup the interval on component unmount
     return () => {
-      clearInterval(interval); // Clears the interval when the component is removed from the DOM
+      clearInterval(interval); // Cleanup interval when component unmounts
     };
-  }, []); // Empty dependency array ensures this effect runs only once when the component mounts
+  }, []); // Only run on mount (empty dependency array)
 
-  // Returning the contents and refresh function to be used in components that consume this hook
-  return { contents, refresh };
+  return { contents, loading, refresh: fetchContents }; // Return the fetched content and loading state
 }
