@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types } from "mongoose";
+import mongoose, { model, Schema, Types } from "mongoose";
 
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
@@ -31,3 +31,10 @@ const LinkSchema = new Schema({
     unique: true,
   },
 });
+const models = {
+  userModel: model("User", userSchema),
+  ContentModel: model("Content", contentSchema),
+  LinkModel: model("Link", LinkSchema),
+};
+
+export default models;
