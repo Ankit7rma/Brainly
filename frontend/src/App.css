@@ -1,42 +1,46 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* App.css */
+
+/* Styling for the container of the home page */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  background-color: #f7f7f7; /* Light background color */
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Heading styling */
+h1 {
+  font-size: 2.5rem;
+  color: #333; /* Dark text color */
+  margin-bottom: 20px; /* Space below the heading */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Styling for the buttons container */
+.buttons-container {
+  display: flex;
+  gap: 20px; /* Space between the buttons */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Styling for each button */
+button {
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  color: white;
+  background-color: #4caf50; /* Green background */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.card {
-  padding: 2em;
+/* Hover effect for the buttons */
+button:hover {
+  background-color: #45a049; /* Slightly darker green */
 }
 
-.read-the-docs {
-  color: #888;
+/* Styling for the links */
+a {
+  text-decoration: none; /* Remove default underline */
 }
