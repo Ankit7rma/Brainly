@@ -1,11 +1,11 @@
 import express from "express";
-// import { random } from "./utils";
+import { random } from "./utils";
 import jwt from "jsonwebtoken";
 import models from "./db";
 import { JWT_SECRET } from "./config";
-// import { userMiddleware } from "./middleware";
+import { userMiddleware } from "./middleware";
 import cors from "cors";
-const { ContentModel, LinkModel, userModel } = models;
+const { ContentModel, LinkModel, UserModel } = models;
 const app = express();
 app.use(express.json()); // Middleware to parse JSON request bodies.
 app.use(cors()); // Middleware to allow cross-origin requests.
@@ -19,7 +19,7 @@ app.post("/api/v1/signup", async (req, res) => {
 
   try {
     // Create a new user with the provided username and password.
-    await userModel.create({ username, password });
+    await UserModel.create({ username, password });
     res.json({ message: "User signed up" }); // Send success response.
   } catch (e) {
     // Handle errors like duplicate usernames.

@@ -34,7 +34,7 @@ const LinkSchema = new Schema({
   },
 });
 const models = {
-  userModel: model("User", userSchema),
+  UserModel: model("User", userSchema),
   ContentModel: model("Content", contentSchema),
   LinkModel: model("Link", LinkSchema),
 };
